@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование задачи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        form { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #45a049; }
+        .cancel {
+            padding: 10px 20px;
+            background: #999;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .flash { padding: 10px 15px; border-radius: 5px; margin-bottom: 15px; }
+        .flash.error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>✏️ Редактирование задачи</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <form action="{{ url_for('edit_task', task_id=task.id) }}" method="post">
+        <input type="text" name="title" value="{{ draft }}" maxlength="100" required>
+        <button type="submit">Сохранить</button>
+        <a href="{{ url_for('index') }}" class="cancel">Отмена</a>
+    </form>
+</body>
+</html>
